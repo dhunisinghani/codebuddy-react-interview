@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
+import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Avatar from "@mui/material/Avatar";
+import Icon from "@mui/material/Icon";
+import { Link as NavLink } from "react-router-dom";
 
-const Posts = () => {
+const Success = () => {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
     (async () => {
@@ -13,7 +16,7 @@ const Posts = () => {
         const { data } = await response.json();
         setPosts(() => data);
       } catch (error) {
-        // console.error(error);
+        console.error(error);
       }
     })();
   }, []);
@@ -24,6 +27,23 @@ const Posts = () => {
         <Typography variant="h4" fontWeight={"bold"} mb={2}>
           Posts
         </Typography>
+        <Link
+          component={NavLink}
+          to="/"
+          sx={{
+            mb: 2,
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            color: "blue",
+            textDecoration: "none",
+            "&:hover": { textDecoration: "underline" },
+          }}
+        >
+          <Icon icon="mdi:arrow-left" className="mr-2" />
+          Back to Home
+        </Link>
+
         <Grid container spacing={3}>
           {posts.length > 0 &&
             posts.map((post) => (
@@ -46,18 +66,7 @@ const Posts = () => {
                     src={post.image}
                     alt={post.firstName}
                   />
-                  <Typography
-                    mt={1}
-                    sx={{
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      display: "-webkit-box",
-                      WebkitLineClamp: "2",
-                      WebkitBoxOrient: "vertical",
-                    }}
-                  >
-                    {post.writeup}
-                  </Typography>
+                  <Typography mt={1}>{post.writeup}</Typography>
                 </Grid>
               </Grid>
             ))}
@@ -67,4 +76,4 @@ const Posts = () => {
   );
 };
 
-export default Posts;
+export default Success;
