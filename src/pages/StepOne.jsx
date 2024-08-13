@@ -36,7 +36,7 @@ const StepOne = () => {
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      {({ values, handleChange, errors, touched, handleSubmit, isValid, dirty }) => {
+      {({ values, handleChange, errors, handleSubmit, validateForm }) => {
         return (
           <>
             <Grid container spacing={2}>
@@ -51,8 +51,8 @@ const StepOne = () => {
                   type="email"
                   value={values.email}
                   onChange={handleChange}
-                  error={Boolean(touched.email && errors.email)}
-                  helperText={touched.email && errors.email}
+                  error={Boolean(errors.email)}
+                  helperText={errors.email}
                   required
                 />
               </Grid>
@@ -67,8 +67,8 @@ const StepOne = () => {
                   type="password"
                   value={values.password}
                   onChange={handleChange}
-                  error={Boolean(touched.password && errors.password)}
-                  helperText={touched.password && errors.password}
+                  error={Boolean(errors.password)}
+                  helperText={errors.password}
                   required
                 />
               </Grid>
@@ -86,11 +86,14 @@ const StepOne = () => {
               <Button
                 variant="contained"
                 sx={{ mt: 3, ml: 1 }}
-                disabled={!dirty || !isValid}
                 color="primary"
                 onClick={() => {
-                  handleSubmit();
-                  handleNext();
+                  validateForm().then((result) => {
+                    if (Object.keys(result).length === 0) {
+                      handleSubmit();
+                      handleNext();
+                    }
+                  });
                 }}
               >
                 Save and Next

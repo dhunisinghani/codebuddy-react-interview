@@ -41,7 +41,7 @@ const StepTwo = () => {
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      {({ values, handleChange, errors, touched, handleSubmit, isValid, dirty }) => {
+      {({ values, handleChange, errors, handleSubmit, validateForm }) => {
         return (
           <>
             <Grid container spacing={2}>
@@ -55,8 +55,8 @@ const StepTwo = () => {
                   placeholder="First Name"
                   value={values.firstName}
                   onChange={handleChange}
-                  error={Boolean(touched.firstName && errors.firstName)}
-                  helperText={touched.firstName && errors.firstName}
+                  error={Boolean(errors.firstName)}
+                  helperText={errors.firstName}
                   required
                 />
               </Grid>
@@ -70,8 +70,8 @@ const StepTwo = () => {
                   placeholder="Last Name"
                   value={values.lastName}
                   onChange={handleChange}
-                  error={Boolean(touched.lastName && errors.lastName)}
-                  helperText={touched.lastName && errors.lastName}
+                  error={Boolean(errors.lastName)}
+                  helperText={errors.lastName}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -84,8 +84,8 @@ const StepTwo = () => {
                   placeholder="Address"
                   value={values.address}
                   onChange={handleChange}
-                  error={Boolean(touched.address && errors.address)}
-                  helperText={touched.address && errors.address}
+                  error={Boolean(errors.address)}
+                  helperText={errors.address}
                   required
                 />
               </Grid>
@@ -99,11 +99,14 @@ const StepTwo = () => {
               </Button>
               <Button
                 variant="contained"
-                disabled={!dirty || !isValid}
                 color="primary"
                 onClick={() => {
-                  handleSubmit();
-                  handleNext();
+                  validateForm().then((result) => {
+                    if (Object.keys(result).length === 0) {
+                      handleSubmit();
+                      handleNext();
+                    }
+                  });
                 }}
               >
                 Save and Next

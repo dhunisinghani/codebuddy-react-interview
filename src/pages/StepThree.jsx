@@ -54,7 +54,7 @@ const StepThree = () => {
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      {({ values, handleChange, handleBlur, errors, touched, handleSubmit, isValid, dirty }) => {
+      {({ values, handleChange, handleBlur, errors, handleSubmit }) => {
         return (
           <>
             <Grid container spacing={2}>
@@ -72,8 +72,8 @@ const StepThree = () => {
                   value={values.countryCode}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={Boolean(touched.countryCode && errors.countryCode)}
-                  helperText={touched.countryCode && errors.countryCode}
+                  error={Boolean(errors.countryCode)}
+                  helperText={errors.countryCode}
                   required
                 >
                   <option value=""> </option>
@@ -92,8 +92,8 @@ const StepThree = () => {
                   value={values.phone}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={Boolean(touched.phone && errors.phone)}
-                  helperText={touched.phone && errors.phone}
+                  error={Boolean(errors.phone)}
+                  helperText={errors.phone}
                   required
                 />
               </Grid>
@@ -111,10 +111,8 @@ const StepThree = () => {
                   }
                   label="Agree to terms and conditions"
                 />
-                <FormHelperText
-                  error={Boolean(touched.acceptTermsAndCondition && errors.acceptTermsAndCondition)}
-                >
-                  {touched.acceptTermsAndCondition && errors.acceptTermsAndCondition}
+                <FormHelperText error={Boolean(errors.acceptTermsAndCondition)}>
+                  {errors.acceptTermsAndCondition}
                 </FormHelperText>
               </Grid>
             </Grid>
@@ -122,7 +120,6 @@ const StepThree = () => {
               <Button
                 variant="contained"
                 sx={{ mt: 3, ml: 1 }}
-                // disabled={isError()}
                 color="primary"
                 onClick={handleBack}
               >
@@ -131,7 +128,6 @@ const StepThree = () => {
               <Button
                 variant="contained"
                 sx={{ mt: 3, ml: 1 }}
-                disabled={!dirty || !isValid}
                 color="primary"
                 onClick={handleSubmit}
               >
